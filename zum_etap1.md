@@ -17,15 +17,15 @@ W ramach implementacji zostaną zrealizowane osobno moduły do algorytmu uczenia
 (https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)
 --->
 W eksperymentach wykożystywane będę następujące algorytmy z biblioteki **SciKit Learn** w wariancie klasyfikatorów:
-    * Nearest Neighbors (sklearn.neighbours.KNeighborsClassifier)
-    * Linear SVM (sklearn.SVM.SVC)
-    * RBF SVM (sklearn.SVM.SVC)
-    * Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier)
-    * Decision Tree (sklearn.tree.DecisionTreeClassifier)
-    * Random Forest (sklearn.ensemble.RandomForestClassifier)
-    * AdaBoost (sklearn.ensemble.AdaBoostClassifier)
-    * Naive Bayes (sklearn.naive_bayes.GaussianNB)
-    * QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis)
+- Nearest Neighbors (sklearn.neighbours.KNeighborsClassifier)
+- Linear SVM (sklearn.SVM.SVC)
+- RBF SVM (sklearn.SVM.SVC)
+- Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier)
+- Decision Tree (sklearn.tree.DecisionTreeClassifier)
+- Random Forest (sklearn.ensemble.RandomForestClassifier)
+- AdaBoost (sklearn.ensemble.AdaBoostClassifier)
+- Naive Bayes (sklearn.naive_bayes.GaussianNB)
+- QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis)
 Wszelkie uzbierane dane numeryczne będące rezultatami działania algorytmu będą analizowane zbiorowo za pomocą funkcji biblioteki **Pandas**, głównie metod klasy pandas.DataFrame.
 Interfejs webowy użytkownika podczas aktywnego uczenia zostanie zrealizowany za pomocą abstrakcji biblioteki **Streamlit**.
 
@@ -33,29 +33,29 @@ Interfejs webowy użytkownika podczas aktywnego uczenia zostanie zrealizowany za
 W ramach projektu planowanie jest zrealizowanie dwóch badań na dwóch różnych etapach. Badadnia Integracyjne na etapie Implementacji, służące do weryfikacji jakości biblioteki oraz jej niezawodności oraz Badania Wpływu Strategii Zapytań na etapie Walidacji, która ukaże różnice pomiędzy stosowaniem różnych rodzajów straegii próbkowania punktów do otagowania.
 
 ### Cel poszczególnych badań
-* Badania Integracyjne
+- Badania Integracyjne
 Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symulowanym użytkownikiem. Nie będą się one wiązały z wynikami odrębnymi od informacji systemowych i będą prowadzone wyłącznie na Etapie Implementacji w celu weryfikacji poprawnego działania algorytmów.
 
-* Badania Wpływu Strategii Zapytań
+- Badania Wpływu Strategii Zapytań
 Są to badania wpływu różnych strategii wyznacznia punktów do otagowania przez algorytm aktywnego uczenia. Zamierzone jest zbadanie co najmniej 3 strategii: ATS, Uncertainty Sampling oraz Expected Error Reduction.
 
 ### Charakterystyka zbiorów danych
 Planowanym jest używanie dwóch rodzajów zbiorów:
--> Zbiór MNIST
+- Zbiór MNIST
 W ramach bibliotek sklearn, zbiór ten jest reprezentowany poprzez 1000 czarno-białych obrazków o wymiarach 8x8 podzielonych na 10 równolicznych klas.
--> Zbiór CIFAR10
+- Zbiór CIFAR10
 W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas.
 
 ### Badane parametry algorytmów
 Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała i udnotowana w dokumentacji projektu.
 
 ### Miary jakości i procedury oceny modeli
-* Badania Integracyjne
+- Badania Integracyjne
 Ocenie będzie poddawany przyrost informacyjny dot. stanu kodu oraz czas odpowiedzi systemu. Ocena nastąpi poprzez skonfrontowanie rezultatów ze spodziewanymi.
 
 
-* Badanie Wpływu Strategii Zapytań
+- Badanie Wpływu Strategii Zapytań
 Strategie zapytań będą mierzone na każdym jednostkowym przyroście informacyjnym poprzez ocenę każdego z modelów miarami Accuracy, Negative Log Loss oraz ROC Area Under Curve. Wspólnie tendencje tych trzech metryk będą poddawane analizie porównawczej na późniejszych etapach oceny wpływu parametru selekcji.
 
 ## Otwarte kwestie wymagające późniejszego rozwiązania (wraz z wyjaśnieniem powodów, dla których ich rozwiązanie jest odłożone na później)
-* Ze względu na brak działających modułów, nie stwierdzono jeszcze zasadności i stacku istnienia testów automatycznych.
+- Ze względu na brak działających modułów, nie stwierdzono jeszcze zasadności i stacku istnienia testów automatycznych.
