@@ -20,31 +20,29 @@ W eksperymentach wykożystywane będę następujące algorytmy z biblioteki **Sc
 - Nearest Neighbors (sklearn.neighbours.KNeighborsClassifier)
 - Linear SVM (sklearn.SVM.SVC)
 - RBF SVM (sklearn.SVM.SVC)
-- Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier)
+<!-- - Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier) -->
 - Decision Tree (sklearn.tree.DecisionTreeClassifier)
 - Random Forest (sklearn.ensemble.RandomForestClassifier)
-- AdaBoost (sklearn.ensemble.AdaBoostClassifier)
+<!-- - AdaBoost (sklearn.ensemble.AdaBoostClassifier) -->
 - Naive Bayes (sklearn.naive_bayes.GaussianNB)
-- QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis)
+<!-- - QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis) -->
 Wszelkie uzbierane dane numeryczne będące rezultatami działania algorytmu będą analizowane zbiorowo za pomocą funkcji biblioteki **Pandas**, głównie metod klasy pandas.DataFrame.
-Interfejs webowy użytkownika podczas aktywnego uczenia zostanie zrealizowany za pomocą abstrakcji biblioteki **Streamlit**.
+Interfejs użytkownika podczas aktywnego uczenia zostanie zrealizowany prawdopodobnie jako aplikacja webowa przy pomocy biblioteki **Streamlit**.
 
 ## Plan badań
 W ramach projektu planowanie jest zrealizowanie dwóch badań na dwóch różnych etapach. Badadnia Integracyjne na etapie Implementacji, służące do weryfikacji jakości biblioteki oraz jej niezawodności oraz Badania Wpływu Strategii Zapytań na etapie Walidacji, która ukaże różnice pomiędzy stosowaniem różnych rodzajów straegii próbkowania punktów do otagowania.
 
 ### Cel poszczególnych badań
 - Badania Integracyjne
-Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symulowanym użytkownikiem. Nie będą się one wiązały z wynikami odrębnymi od informacji systemowych i będą prowadzone wyłącznie na Etapie Implementacji w celu weryfikacji poprawnego działania algorytmów.
+Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symulowanym użytkownikiem. Nie będą się one wiązały z wynikami odrębnymi od informacji systemowych i będą prowadzone wyłącznie na Etapie Implementacji w celu weryfikacji poprawnego działania systemu.
 
 - Badania Wpływu Strategii Zapytań
 Są to badania wpływu różnych strategii wyznacznia punktów do otagowania przez algorytm aktywnego uczenia. Zamierzone jest zbadanie co najmniej 3 strategii: ATS, Uncertainty Sampling oraz Expected Error Reduction.
 
 ### Charakterystyka zbiorów danych
-Planowanym jest używanie dwóch rodzajów zbiorów:
-- Zbiór MNIST
-W ramach bibliotek sklearn, zbiór ten jest reprezentowany poprzez 1000 czarno-białych obrazków o wymiarach 8x8 podzielonych na 10 równolicznych klas.
-- Zbiór CIFAR10
-W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas.
+Planujemy użyć szeroko znanego zbioru [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file). Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`.
+Zdecydowaliśmy się na ten zbiór, ponieważ:
+- TODO
 
 ### Badane parametry algorytmów
 Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała i udnotowana w dokumentacji projektu.
