@@ -50,7 +50,12 @@ W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 ko
 Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała i udnotowana w dokumentacji projektu.
 
 ### Miary jakości i procedury oceny modeli
-TODO
+* Badania Integracyjne
+Ocenie będzie poddawany przyrost informacyjny dot. stanu kodu oraz czas odpowiedzi systemu. Ocena nastąpi poprzez skonfrontowanie rezultatów ze spodziewanymi.
+
+
+* Badanie Wpływu Strategii Zapytań
+Strategie zapytań będą mierzone na każdym jednostkowym przyroście informacyjnym poprzez ocenę każdego z modelów miarami Accuracy, Negative Log Loss oraz ROC Area Under Curve. Wspólnie tendencje tych trzech metryk będą poddawane analizie porównawczej na późniejszych etapach oceny wpływu parametru selekcji.
 
 ## Otwarte kwestie wymagające późniejszego rozwiązania (wraz z wyjaśnieniem powodów, dla których ich rozwiązanie jest odłożone na później)
 * Ze względu na brak działających modułów, nie stwierdzono jeszcze zasadności i stacku istnienia testów automatycznych.
