@@ -30,16 +30,24 @@ Wszelkie uzbierane dane numeryczne będące rezultatami działania algorytmu bę
 Interfejs webowy użytkownika podczas aktywnego uczenia zostanie zrealizowany za pomocą abstrakcji biblioteki **Streamlit**.
 
 ## Plan badań
-TODO
+W ramach projektu planowanie jest zrealizowanie dwóch badań na dwóch różnych etapach. Badadnia Integracyjne na etapie Implementacji, służące do weryfikacji jakości biblioteki oraz jej niezawodności oraz Badania Wpływu Strategii Zapytań na etapie Walidacji, która ukaże różnice pomiędzy stosowaniem różnych rodzajów straegii próbkowania punktów do otagowania.
 
 ### Cel poszczególnych badań
-TODO
+* Badania Integracyjne
+Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symulowanym użytkownikiem. Nie będą się one wiązały z wynikami odrębnymi od informacji systemowych i będą prowadzone wyłącznie na Etapie Implementacji w celu weryfikacji poprawnego działania algorytmów.
+
+* Badania Wpływu Strategii Zapytań
+Są to badania wpływu różnych strategii wyznacznia punktów do otagowania przez algorytm aktywnego uczenia. Zamierzone jest zbadanie co najmniej 3 strategii: ATS, Uncertainty Sampling oraz Expected Error Reduction.
 
 ### Charakterystyka zbiorów danych
-TODO
+Planowanym jest używanie dwóch rodzajów zbiorów:
+-> Zbiór MNIST
+W ramach bibliotek sklearn, zbiór ten jest reprezentowany poprzez 1000 czarno-białych obrazków o wymiarach 8x8 podzielonych na 10 równolicznych klas.
+-> Zbiór CIFAR10
+W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas.
 
 ### Badane parametry algorytmów
-TODO?
+Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała i udnotowana w dokumentacji projektu.
 
 ### Miary jakości i procedury oceny modeli
 TODO
