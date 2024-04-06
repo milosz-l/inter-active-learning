@@ -16,16 +16,16 @@ W ramach implementacji zostaną zrealizowane osobno moduły do algorytmu uczenia
 <!---
 (https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)
 --->
-W eksperymentach wykożystywane będę następujące algorytmy z biblioteki **SciKit Learn** w wariancie klasyfikatorów:
+Z eksperymentami będą kompatybilne następujące algorytmy z biblioteki **SciKit Learn** w wariancie klasyfikatorów:
 - Nearest Neighbors (sklearn.neighbours.KNeighborsClassifier)
 - Linear SVM (sklearn.SVM.SVC)
 - RBF SVM (sklearn.SVM.SVC)
-<!-- - Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier) -->
+- Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier)
 - Decision Tree (sklearn.tree.DecisionTreeClassifier)
 - Random Forest (sklearn.ensemble.RandomForestClassifier)
-<!-- - AdaBoost (sklearn.ensemble.AdaBoostClassifier) -->
+- AdaBoost (sklearn.ensemble.AdaBoostClassifier)
 - Naive Bayes (sklearn.naive_bayes.GaussianNB)
-<!-- - QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis) -->
+- QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis)
 Wszelkie uzbierane dane numeryczne będące rezultatami działania algorytmu będą analizowane zbiorowo za pomocą funkcji biblioteki **Pandas**, głównie metod klasy pandas.DataFrame.
 Interfejs użytkownika podczas aktywnego uczenia zostanie zrealizowany prawdopodobnie jako aplikacja webowa przy pomocy biblioteki **Streamlit**.
 
