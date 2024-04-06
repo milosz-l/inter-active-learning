@@ -40,9 +40,12 @@ Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symu
 Są to badania wpływu różnych strategii wyznacznia punktów do otagowania przez algorytm aktywnego uczenia. Zamierzone jest zbadanie co najmniej 3 strategii: ATS, Uncertainty Sampling oraz Expected Error Reduction.
 
 ### Charakterystyka zbiorów danych
-Planujemy użyć szeroko znanego zbioru [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file). Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`.
-Zdecydowaliśmy się na ten zbiór, ponieważ:
-- TODO
+Planowanym jest używanie dwóch rodzajów zbiorów:
+
+- Zbiór [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file)
+Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`. Ze względu na prostą możliwość zbudowania automatycznej "wyroczni" niezbędnej w algortymie uczenia aktywnego, na tym zbiorze przeprowadzane będą eksperymenty numeryczne wpływu strategii próbkowania na budowę modelu.
+- Zbiór [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html)
+W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas. Ze względu na jego prostą interpretowalność przez człowieka będzie on wykorzystywany jako zbiór testowy w interaktywnym interfejsie graficznym w Streamlit.
 
 ### Badane parametry algorytmów
 Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała i udnotowana w dokumentacji projektu.
