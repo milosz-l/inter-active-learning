@@ -10,6 +10,29 @@ def get_dataset(data: str, balace=0.5):
     else:
         raise NotImplementedError("Classification for given dataset is not yet implemented")
 
+def fetch_and_prepare_titanic_data():
+    # Fetch the Titanic dataset
+    titanic = fetch_openml(name='titanic', version=1, as_frame=True)
+    df = titanic.frame
+
+    # Select relevant columns
+    columns = ['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare', 'survived']
+    df = df[columns]
+
+    # Handle missing values
+    df['age'].fillna(df['age'].median(), inplace=True)
+    #df.dropna(subset='embarked', inplace=True)
+
+    # Convert categorical column 'Sex' to numerical
+    df['sex'] = df['sex'].map({'male': 0, 'female': 1})
+    df = df.dropna()
+
+    # Split features and target
+    X = df.drop('survived', axis=1)
+    y = df['survived'].astype(int)
+
+    return X.to_numpy(), y.to_numpy()
+
 def split_active(X, y, splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random_state=1234):
     Xes = []
     yes = []
