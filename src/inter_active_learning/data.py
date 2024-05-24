@@ -1,0 +1,30 @@
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+import numpy as np
+
+def get_dataset(data: str, balace=0.5):
+    if data.lower()=="titanic":
+        return fetch_openml(name='titanic', version=1)
+    elif data.lower()=="cifar-10":
+        return fetch_openml(name='cifar-10')
+    else:
+        raise NotImplementedError("Classification for given dataset is not yet implemented")
+
+def split_active(X, y, splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random_state=1234):
+    Xes = []
+    yes = []
+    splits *= len(X)
+    while len(splits) > 1:
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=int(splits[0]), random_state=1)
+        Xes.append(X_test)
+        yes.append(y_test)
+        X = X_train
+        y = y_train
+        splits = np.delete(splits, 0)
+    Xes.append(X)
+    yes.append(y)
+    return Xes + yes
+
+if __name__ == "__main__":
+    ans = split_active(np.array([1] * 5000), np.array([2] * 5000), np.array([0.1, 0.7, 0.1, 0.1]))
+    print([len(x) for x in ans])
