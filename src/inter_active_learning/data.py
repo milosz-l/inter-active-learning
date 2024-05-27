@@ -33,12 +33,20 @@ def fetch_and_prepare_titanic_data():
 
     return X.to_numpy(), y.to_numpy()
 
+def fetch_and_prepare_mnist_data():
+    mnist = fetch_openml(name='mnist_784', as_frame=True)
+    df = mnist.frame
+    X = df.drop('class', axis=1)
+    y = df['class'].astype(int)
+
+    return X.to_numpy(), y.to_numpy()
+
 def split_active(X, y, splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random_state=1234):
     Xes = []
     yes = []
     splits *= len(X)
     while len(splits) > 1:
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=int(splits[0]), random_state=1)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=int(splits[0]), random_state=random_state)
         Xes.append(X_test)
         yes.append(y_test)
         X = X_train
@@ -49,5 +57,7 @@ def split_active(X, y, splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random
     return Xes + yes
 
 if __name__ == "__main__":
-    ans = split_active(np.array([1] * 5000), np.array([2] * 5000), np.array([0.1, 0.7, 0.1, 0.1]))
-    print([len(x) for x in ans])
+    # ans = split_active(np.array([1] * 5000), np.array([2] * 5000), np.array([0.1, 0.7, 0.1, 0.1]))
+    # print([len(x) for x in ans])
+
+    print(fetch_and_prepare_mnist_data()[1].shape)
