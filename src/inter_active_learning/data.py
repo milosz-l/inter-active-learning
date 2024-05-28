@@ -41,10 +41,10 @@ def fetch_and_prepare_mnist_data():
 
     return X.to_numpy(), y.to_numpy()
 
-def split_active(X, y, splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random_state=1234):
+def split_active(X, y, split: np.array = np.array([0.1, 0.7, 0.1, 0.1]), random_state=1234):
     Xes = []
     yes = []
-    splits *= len(X)
+    splits = split * len(X)
     while len(splits) > 1:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=int(splits[0]), random_state=random_state)
         Xes.append(X_test)
