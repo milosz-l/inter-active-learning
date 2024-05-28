@@ -1,5 +1,5 @@
 from data import split_active, fetch_and_prepare_titanic_data, fetch_and_prepare_mnist_data
-from sampling import uncertainty_sampling
+from sampling import uncertainty_sampling, entropy_sampling, confidence_margin_sampling, confidence_quotient_sampling
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 from sklearn.pipeline import make_pipeline
@@ -59,7 +59,7 @@ def active_learn(data: str,  stop_criterion, classifier, uncertainty_fc, data_sp
             break
 
         # Select the most uncertain sample
-        indices = uncertainty_fc(pipe, X_active, n_samples=n_samples)
+        indices = uncertainty_fc(pipe, X_pool=X_active, y_pool=y_active, X_base=X_base, y_base=y_base, n_samples=n_samples)
 
         # Move the selected sample to the base set
         X_base = np.vstack([X_base, X_active[indices]])
@@ -102,10 +102,10 @@ if __name__ == "__main__":
     # print(valid)
     # print(test)
     df = experiment(
-            data=['titanic'],
+            data=['mnist'],
             stop_criterion=lambda x: x['Accuracy'] > 0.9,
-            classifiers={'Bayes': GaussianNB(), 'KNN': KNeighborsClassifier(3)},
-            uncertainty_fcs={"Uncertainty": uncertainty_sampling},
+            classifiers={'KNN': KNeighborsClassifier(3)},
+            uncertainty_fcs={"Uncertainty": uncertainty_sampling, "Entropy": entropy_sampling, "Confidence margin": confidence_margin_sampling, "Confidence quotient": confidence_quotient_sampling},
     )
     print(df)
 
