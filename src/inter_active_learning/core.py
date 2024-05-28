@@ -1,4 +1,4 @@
-from data import split_active, fetch_and_prepare_titanic_data
+from data import split_active, fetch_and_prepare_titanic_data, fetch_and_prepare_mnist_data
 from sampling import uncertainty_sampling
 import numpy as np
 from sklearn.pipeline import make_pipeline
@@ -9,6 +9,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 RANDOM_STATE=1234
+DATA_DICT = {
+    "titanic": fetch_and_prepare_titanic_data,
+    "mnist": fetch_and_prepare_mnist_data
+}
 
 def compute(args):
     return max(args, key=len)
@@ -18,7 +22,12 @@ def active_learn(data: str,  stop_criterion, classifier, uncertainty_fc, data_sp
     params:
         stop_criterion: function taking argument in form of metric dicts and returning True/False
     """
-    X, y = fetch_and_prepare_titanic_data()
+    if data in DATA_DICT.keys():
+        X, y = DATA_DICT[data]()
+    else:
+        print(f'Available data sources: {DATA_DICT.keys()}')
+        return None
+
     X_base, X_active, X_valid, X_test, y_base, y_active, y_valid, y_test = split_active(X, y, splits=data_splits, random_state=RANDOM_STATE)
     metric_dict = {
         "Accuracy": 0,
@@ -36,7 +45,9 @@ def active_learn(data: str,  stop_criterion, classifier, uncertainty_fc, data_sp
 
         metric_dict["Accuracy"] = accuracy_score(y_valid, y_valid_pred)
         metric_dict["Negative Log Loss"] = log_loss(y_valid, y_valid_prob)
-        metric_dict["AUC"] = roc_auc_score(y_valid, y_valid_prob[:,1], multi_class='ovr')
+        if data == 'titanic':
+            y_valid_prob = y_valid_prob[:,1]
+        metric_dict["AUC"] = roc_auc_score(y_valid, y_valid_prob, multi_class='ovr')
 
         if stop_criterion(metric_dict):
             break
@@ -66,7 +77,7 @@ def active_learn(data: str,  stop_criterion, classifier, uncertainty_fc, data_sp
     return final_metrics, metric_dict, iter
 
 if __name__ == "__main__":
-    test, valid, iter = active_learn('titanic', lambda x: x['Accuracy'] > 0.9, GaussianNB(), uncertainty_sampling)
+    test, valid, iter = active_learn('mnist', lambda x: x['Accuracy'] > 0.9, GaussianNB(), uncertainty_sampling)
     print(f"Iterations: {iter}")
     print(test)
 
