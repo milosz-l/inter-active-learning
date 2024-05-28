@@ -16,9 +16,6 @@ DATA_DICT = {
     "mnist": fetch_and_prepare_mnist_data
 }
 
-def compute(args):
-    return max(args, key=len)
-
 def compute_metrics(pipe, X_valid, y_valid, data='titanic'):
     # Evaluate on validation set
     metric_dict = {}
@@ -102,11 +99,11 @@ if __name__ == "__main__":
     # print(valid)
     # print(test)
     df = experiment(
-            data=['mnist'],
+            data=['titanic'],
             stop_criterion=lambda x: x['Accuracy'] > 0.9,
             classifiers={'KNN': KNeighborsClassifier(3)},
             uncertainty_fcs={"Uncertainty": uncertainty_sampling, "Entropy": entropy_sampling, "Confidence margin": confidence_margin_sampling, "Confidence quotient": confidence_quotient_sampling},
     )
-    print(df)
+    df.to_csv('cos.txt')
 
 
