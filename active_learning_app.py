@@ -54,10 +54,7 @@ uncertainty_fcs = {
 selected_uncertainty_fcs = st.sidebar.multiselect("Select Uncertainty Functions", list(uncertainty_fcs.keys()), default=["Uncertainty"])
 
 # Data splits using range sliders
-train_active_vs_valid_test_max_value = 0.99
-train_active_vs_valid_test = st.sidebar.slider(
-    label="Train+Active vs Valid+Test", min_value=0.01, max_value=train_active_vs_valid_test_max_value, value=0.8
-)
+train_active_vs_valid_test = st.sidebar.slider(label="Train+Active vs Valid+Test", min_value=0.01, max_value=0.99, value=0.8)
 
 train_vs_active, valid_vs_test = st.sidebar.columns(2)
 
