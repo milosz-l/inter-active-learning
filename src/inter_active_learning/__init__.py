@@ -1,7 +1,7 @@
-__version__ = "0.0.0"
+# __version__ = "0.0.0"
 
-from .core import compute
+# from .core import compute
 
-__all__ = [
-    "compute",
-]
+# __all__ = [
+#     "compute",
+# ]
