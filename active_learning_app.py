@@ -17,8 +17,12 @@ st.sidebar.header("Experiment Configuration")
 # Dataset selection
 dataset = st.sidebar.selectbox("Select Dataset", ["titanic", "mnist"])
 
-# Stop criterion
-stop_criterion_accuracy = st.sidebar.slider("Stop Criterion (Accuracy)", 0.0, 1.0, 0.9)
+# Stop criterion selection
+## first: choose between: "Accuracy", "Negative Log Loss", "AUC"
+stop_criterion_metric = st.sidebar.selectbox("Stop Criterion Metric", ["Accuracy", "Negative Log Loss", "AUC"])
+
+## second: set the threshold for the stop criterion
+stop_criterion_threshold = st.sidebar.number_input("Stop Criterion Threshold", min_value=0.0, max_value=1.0, value=0.9)
 
 # Classifier selection
 classifiers = {"KNN": KNeighborsClassifier(3), "Naive Bayes": GaussianNB()}
@@ -76,7 +80,7 @@ if st.sidebar.button("Run Experiment"):
     # Run the experiment
     results = experiment(
         data=[dataset],
-        stop_criterion=lambda x: x["Accuracy"] > stop_criterion_accuracy,
+        stop_criterion=lambda x: x[stop_criterion_metric] > stop_criterion_threshold,
         classifiers=selected_classifiers_dict,
         uncertainty_fcs=selected_uncertainty_fcs_dict,
         data_splits=data_splits,
