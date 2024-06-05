@@ -1,7 +1,13 @@
 import numpy as np
 import streamlit as st
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from src.inter_active_learning.core import experiment
 from src.inter_active_learning.sampling import confidence_margin_sampling
 from src.inter_active_learning.sampling import confidence_quotient_sampling
@@ -18,14 +24,24 @@ st.sidebar.header("Experiment Configuration")
 dataset = st.sidebar.selectbox("Select Dataset", ["titanic", "mnist"])
 
 # Stop criterion selection
-## first: choose between: "Accuracy", "Negative Log Loss", "AUC"
-stop_criterion_metric = st.sidebar.selectbox("Stop Criterion Metric", ["Accuracy", "Negative Log Loss", "AUC"])
+## first: choose between: "Accuracy", "AUC"
+stop_criterion_metric = st.sidebar.selectbox("Stop Criterion Metric", ["Accuracy", "AUC"])
 
 ## second: set the threshold for the stop criterion
 stop_criterion_threshold = st.sidebar.number_input("Stop Criterion Threshold", min_value=0.0, max_value=1.0, value=0.9)
 
 # Classifier selection
-classifiers = {"KNN": KNeighborsClassifier(3), "Naive Bayes": GaussianNB()}
+classifiers = {
+    "KNN": KNeighborsClassifier(3),
+    "Linear SVM": SVC(kernel="linear", probability=True),
+    "RBF SVM": SVC(kernel="rbf", probability=True),
+    "Gaussian Process": GaussianProcessClassifier(),
+    "Decision Tree": DecisionTreeClassifier(),
+    "Random Forest": RandomForestClassifier(),
+    "AdaBoost": AdaBoostClassifier(),
+    "Naive Bayes": GaussianNB(),
+    "QDA": QuadraticDiscriminantAnalysis(),
+}
 selected_classifiers = st.sidebar.multiselect("Select Classifiers", list(classifiers.keys()), default=["KNN"])
 
 # Uncertainty functions selection
@@ -89,4 +105,4 @@ if st.sidebar.button("Run Experiment"):
 
     # Display results
     st.write("Experiment Results")
-    st.dataframe(results)
+    st.dataframe(results.style.highlight_max(axis=0))
