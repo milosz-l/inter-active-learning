@@ -102,8 +102,8 @@ if st.sidebar.button("Run Experiment"):
 
     # Display results
     st.write("Experiment Results")
-    max_highlight_columns = ["Accuracy", "AUC"]  # Replace with your actual criterion column names
-    min_highlight_columns = ["Negative Log Loss", "Iterations"]  # Replace with your actual criterion column names
+    max_highlight_columns = ["Accuracy", "AUC"]
+    min_highlight_columns = ["Negative Log Loss", "Iterations"]
     st.dataframe(results.style.highlight_max(axis=0, subset=max_highlight_columns).highlight_min(axis=0, subset=min_highlight_columns))
 
     st.write(
