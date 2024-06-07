@@ -137,8 +137,9 @@ if st.sidebar.button("Run Experiment"):
     st.write("Experiment Results")
 
     # Apply gradient coloring
-    styled_results = results.style.background_gradient(subset=max_highlight_columns, cmap="Greens").background_gradient(
-        subset=min_highlight_columns, cmap="Reds"
+    chosen_cmap = "YlGn"
+    styled_results = results.style.background_gradient(subset=max_highlight_columns, cmap=chosen_cmap).background_gradient(
+        subset=min_highlight_columns, cmap=chosen_cmap
     )
     # styled_results = results.style.format(precision=2).bar(color="orange")
     st.dataframe(styled_results)
