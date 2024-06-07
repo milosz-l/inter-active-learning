@@ -79,10 +79,9 @@ TODO
 ### Charakterystyka zbiorów danych
 Domyślnie pakiet umożliwia przeprowadzanie eksperymentów na poniższych zbiorach danych:
 
-- Zbiór [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file)
-Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`.
-- Zbiór [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html)
-W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas.
+- Zbiór [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file) - będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`.
+- Zbiór [MNIST](https://www.openml.org/search?type=data&status=active&id=554) - jest to zbiór obrazków ręcznie pisanych cyfr od 0 do 9. 10 klas, 70000 próbek i 784 cech na każdą próbkę.
+
 
 ### Preprocessing danych
 Dla uproszczenia do klasyfikacji wykorzystane zostały jedynie kolumny numeryczne. Pominęliśmy kroki takie jak przykładowo one-hot encoding dla kolumn kategorycznych. Uznaliśmy, że główny temat i cel projektu tego nie wymaga, a takie podejście pozwoliło nam skrócić czas obliczeń.
@@ -107,7 +106,7 @@ Interfejs graficzny pozwala na wygodne skonfigurowanie poniższych parametrów e
 - wybór funkcji niepewności do przetestowania (na przykładzie wybrane zostały wszystkie strategie, czyli: `Uncertainty`, `Entropy`, `Confidence margin` oraz `Confidence quotient`)
 - pierwszy suwak umożliwia zdefiniowanie podziału na dwie części - pierwsza część będzie dalej przeznaczona na zbiór treningowy oraz zbiór do aktywanego uczenia, a druga część będzie dalej przeznaczona na zbiór walidacyjny oraz zbiór treningowy (w tym wypadku 80% danych przeznaczamy na `Train+Active`, a 20% danych przeznaczamy na `Valid+Test`)
 - następnie dwa suwaki umożliwiają dostosowanie proporcji zbiorów `Train+Active` oraz `Valid+Test` (w tym wypadku ostatecznie 10% przeznaczamy na zbiór `Train` i 70% na zbiór `Active`, a pozostałe 20% rozdzielamy po równo na zbiory `Valid` oraz `Test`)
-- Ustawienie `Number of Samples per Iteration` pozwala nam zdefiniować liczbę przykładów dobieranych w kolejnych iteracjach aktywnego uczenia (w tym wypadku `10`)
+- ustawienie `Number of Samples per Iteration` pozwala nam zdefiniować liczbę przykładów dobieranych w kolejnych iteracjach aktywnego uczenia (w tym wypadku `10`)
 - ostatnia opcja umożliwia nam wybranie zbiorów danych dla których wyniki mają być widoczne w wynikowej tabeli (w tym wypadku chcemy móc porównać wyniki dla zbiorów `Train` oraz `Valid`, natomiast nie chcemy znać wyników uzyskiwanych przez modele na zbiorze testowym)
 
 Dodatkowo wygenerowane wyniki można w prosty sposób pobrać jako plik w formacie `.csv`:
@@ -124,17 +123,31 @@ Pakiet umożliwia realizowanie eksperymentów z wykorzystaniem następujących s
 źródło: [2]
 
 #### Entropia (Entropy sampling)
+Entropia mierzy niepewność modelu poprzez ocenę rozkładu prawdopodobieństwa przewidywanych klas. Im wyższa entropia, tym większa niepewność modelu co do klasyfikacji danego przykładu. Wybierane są próbki z najwyższą entropią.
+- **Zastosowanie**: Dobrze sprawdza się w sytuacjach, gdy chcemy uwzględnić cały rozkład prawdopodobieństwa, a nie tylko najbardziej prawdopodobne klasy.
+- **Przykład zastosowania**: W klasyfikacji wieloklasowej, gdzie interesuje nas pełny rozkład prawdopodobieństwa dla każdej klasy, np. w rozpoznawaniu obrazów z wieloma kategoriami.
 
 #### Najmniejsza ufność (Uncertainty sampling)
+Strategia najmniejszej ufności wybiera próbki, dla których model ma najmniejszą pewność co do swojej predykcji. Jest to najprostsza forma miary niepewności, gdzie wybierane są próbki z najniższym prawdopodobieństwem przypisanym do przewidywanej klasy.
+- **Zastosowanie**: Najlepsza w sytuacjach, gdy interesuje nas tylko najbardziej niepewna predykcja, bez uwzględniania innych klas.
+- **Przykład zastosowania**: W klasyfikacji binarnej, gdzie chcemy skupić się na przypadkach, które model klasyfikuje z najmniejszą pewnością, np. w wykrywaniu spamu.
 
 #### Margines ufności (Confidence margin sampling)
+Margines ufności mierzy różnicę między prawdopodobieństwami dwóch najbardziej prawdopodobnych klas. Mniejsze różnice wskazują na większą niepewność modelu. Próbki z najmniejszym marginesem są wybierane do dalszego uczenia.
+- **Zastosowanie**: Użyteczna, gdy chcemy skupić się na próbkach, gdzie model jest niepewny między dwiema najbardziej prawdopodobnymi klasami. Jest bardziej czuła na przypadki, gdzie model jest niepewny między dwoma bliskimi klasami.
+- **Przykład zastosowania**: W klasyfikacji obrazów, gdzie model jest niepewny między dwoma podobnymi kategoriami, np. rozpoznawanie różnych ras psów.
 
 #### Iloraz ufności (Confidence quotient sampling)
+Iloraz ufności to stosunek prawdopodobieństwa najbardziej prawdopodobnej klasy do drugiej najbardziej prawdopodobnej klasy. Niższy iloraz wskazuje na większą niepewność. Próbki z najniższym ilorazem są wybierane do dalszego uczenia.
+- **Zastosowanie**: Przydatna, gdy chcemy uwzględnić względną pewność modelu między dwiema najbardziej prawdopodobnymi klasami. Jest bardziej czuła na przypadki, gdzie różnice w prawdopodobieństwach są znaczące, ale niekoniecznie bliskie.
+- **Przykład zastosowania**: W klasyfikacji medycznej, gdzie różnice w prawdopodobieństwach mogą być znaczące, np. diagnozowanie chorób na podstawie wyników badań.
 
 ### Przykładowy eksperyment - badanie wpływu strategii zapytań
 Jako przykładowy eksperyment przeanalizujemy prezentowany wcześniej przykład.
 
 ![app1.py](/docs/assets/app1.png)
+
+
 
 ## Struktura projektu
 TODO

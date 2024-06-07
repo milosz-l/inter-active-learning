@@ -15,6 +15,7 @@ from src.inter_active_learning.sampling import entropy_sampling
 from src.inter_active_learning.sampling import uncertainty_sampling
 
 st.set_page_config(layout="wide")
+RANDOM_STATE = 1234
 
 # Title
 st.title("Active Learning App")
@@ -36,12 +37,12 @@ stop_criterion_threshold = st.sidebar.number_input("Stop Criterion Threshold", m
 # Classifier selection
 classifiers = {
     "KNN": KNeighborsClassifier(3),
-    "Linear SVM": SVC(kernel="linear", probability=True),
-    "RBF SVM": SVC(kernel="rbf", probability=True),
-    "Gaussian Process": GaussianProcessClassifier(),
-    "Decision Tree": DecisionTreeClassifier(),
-    "Random Forest": RandomForestClassifier(),
-    "AdaBoost": AdaBoostClassifier(),
+    "Linear SVM": SVC(kernel="linear", probability=True, random_state=RANDOM_STATE),
+    "RBF SVM": SVC(kernel="rbf", probability=True, random_state=RANDOM_STATE),
+    "Gaussian Process": GaussianProcessClassifier(random_state=RANDOM_STATE),
+    "Decision Tree": DecisionTreeClassifier(random_state=RANDOM_STATE),
+    "Random Forest": RandomForestClassifier(random_state=RANDOM_STATE),
+    "AdaBoost": AdaBoostClassifier(random_state=RANDOM_STATE),
     "Naive Bayes": GaussianNB(),
     "QDA": QuadraticDiscriminantAnalysis(),
 }
