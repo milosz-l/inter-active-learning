@@ -14,6 +14,8 @@ from src.inter_active_learning.sampling import confidence_quotient_sampling
 from src.inter_active_learning.sampling import entropy_sampling
 from src.inter_active_learning.sampling import uncertainty_sampling
 
+st.set_page_config(layout="wide")
+
 # Title
 st.title("Active Learning App")
 
@@ -22,6 +24,7 @@ st.sidebar.header("Experiment Configuration")
 
 # Dataset selection
 dataset = st.sidebar.selectbox("Select Dataset", ["titanic", "mnist"])
+st.write(f"Chosen dataset: `{dataset}`")
 
 # Stop criterion selection
 ## first: choose between: "Accuracy", "AUC"
@@ -79,10 +82,14 @@ valid_split = round(valid_vs_test - train_active_vs_valid_test, 2)
 test_split = round(1.0 - train_split - active_split - valid_split, 2)
 
 data_splits = np.array([train_split, active_split, valid_split, test_split])
-st.write(f"Using the following data splits (train, active, valid, test): {data_splits}")
+st.write(f"Using the following data splits (train, active, valid, test): `{data_splits}`")
+
 
 # Number of samples per iteration
 n_samples = st.sidebar.number_input("Number of Samples per Iteration", min_value=1, value=100)
+st.write(f"Number of samples per iteration: `{n_samples}`")
+# max_iterations = active_split * # TODO: need to fetch number of rows from specified dataset
+# st.write(f"Maximum number of iterations for specified configuration: `{max_iterations}`")
 
 # Run experiment button
 if st.sidebar.button("Run Experiment"):
