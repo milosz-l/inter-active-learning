@@ -11,6 +11,7 @@ Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python podd
 
 #### Pętla aktywnego uczenia
 ![Pętla aktywnego uczenia](docs/assets/active_learning.png)
+źródło: [1]
 
 
 ## Opis części implementacyjnej
@@ -115,7 +116,20 @@ Dodatkowo wygenerowane wyniki można w prosty sposób pobrać jako plik w formac
 TODO: filmik prezentujący interfejs graficzny
 
 
-## Porównanie strategii zapytań
+## Porównanie miar niepewności
+
+Pakiet umożliwia realizowanie eksperymentów z wykorzystaniem następujących strategii zapytań:
+
+![miary niepewności](docs/assets/miary_niepewnosci.png)
+źródło: [2]
+
+#### Entropia (Entropy sampling)
+
+#### Najmniejsza ufność (Uncertainty sampling)
+
+#### Margines ufności (Confidence margin sampling)
+
+#### Iloraz ufności (Confidence quotient sampling)
 
 ### Przykładowy eksperyment - badanie wpływu strategii zapytań
 Jako przykładowy eksperyment przeanalizujemy prezentowany wcześniej przykład.
@@ -127,3 +141,7 @@ TODO
 
 ## Pre-commit, autoformat, linter
 TODO
+
+## Źródła
+[1]: https://github.com/modAL-python/modAL
+[2]: http://elektron.elka.pw.edu.pl/~pcichosz/zum/slajdy/zum-s11.pdf
