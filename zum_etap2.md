@@ -12,6 +12,12 @@ Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python podd
 ## Opis części implementacyjnej
 W ramach implementacji zostały zrealizowane osobno moduły do uczenia aktywnego oraz interfejsu użytkownika. W efekcie użytkownik może korzystać z biblioteki jak z dowolnej innej biblioteki, a dodatkowo będzie mógł alternatywnie wykorzystać interfejs użytkownika do łatwiejszego wykonywania eksperymentów.
 
+### Struktura projektu
+TODO
+
+### Pre-commit, autoformat, linter
+TODO
+
 ### Lista dostępnych algorytmów klasyfikacji
 <!---
 (https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)

@@ -95,18 +95,38 @@ def experiment(
     random_state=RANDOM_STATE,
 ):
     results = pd.DataFrame(
-        columns=["data", "classifier", "strategy", "N sampled per iter", "Dataset", "Accuracy", "Negative Log Loss", "AUC", "Iterations"]
+        columns=[
+            "data",
+            "classifier",
+            "strategy",
+            "N sampled per iter",
+            "Iterations",
+            "train_Accuracy",
+            "train_Negative Log Loss",
+            "train_AUC",
+            "valid_Accuracy",
+            "valid_Negative Log Loss",
+            "valid_AUC",
+            "test_Accuracy",
+            "test_Negative Log Loss",
+            "test_AUC",
+        ]
     )
     row = {
         "data": "",
         "classifier": "",
         "strategy": "",
         "N sampled per iter": 0,
-        "Dataset": "",
-        "Accuracy": 0,
-        "Negative Log Loss": 0,
-        "AUC": 0,
         "Iterations": 0,
+        "train_Accuracy": 0,
+        "train_Negative Log Loss": 0,
+        "train_AUC": 0,
+        "valid_Accuracy": 0,
+        "valid_Negative Log Loss": 0,
+        "valid_AUC": 0,
+        "test_Accuracy": 0,
+        "test_Negative Log Loss": 0,
+        "test_AUC": 0,
     }
     for d in data:
         row["data"] = d
@@ -126,10 +146,11 @@ def experiment(
                         random_state=random_state,
                     )
                     row["Iterations"] = iter
-                    for x, name in [(train, "train"), (valid, "valid"), (test, "test")]:
-                        row.update(x)
-                        row["Dataset"] = name
-                        results.loc[len(results)] = row
+                    for metric in ["Accuracy", "Negative Log Loss", "AUC"]:
+                        row[f"train_{metric}"] = train[metric]
+                        row[f"valid_{metric}"] = valid[metric]
+                        row[f"test_{metric}"] = test[metric]
+                    results.loc[len(results)] = row.copy()
     return results
 
 

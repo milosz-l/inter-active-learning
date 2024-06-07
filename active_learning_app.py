@@ -91,6 +91,11 @@ st.write(f"Number of samples per iteration: `{n_samples}`")
 # max_iterations = active_split * # TODO: need to fetch number of rows from specified dataset
 # st.write(f"Maximum number of iterations for specified configuration: `{max_iterations}`")
 
+show_train, show_valid, show_test = st.sidebar.columns(3)
+show_train_data = show_train.checkbox("Train", value=False, help="Whether to show train data results")
+show_valid_data = show_valid.checkbox("Valid", value=True, help="Whether to show valid data results")
+show_test_data = show_test.checkbox("Test", value=False, help="Whether to show test data results")
+
 # Run experiment button
 if st.sidebar.button("Run Experiment"):
     # Prepare inputs for the experiment function
@@ -107,11 +112,36 @@ if st.sidebar.button("Run Experiment"):
         n_samples=[n_samples],
     )
 
+    results = results.drop(columns=["data", "N sampled per iter"])
+
+    max_highlight_columns = ["valid_Accuracy", "test_Accuracy", "valid_AUC", "test_AUC", "train_Negative Log Loss"]
+    min_highlight_columns = ["train_Accuracy", "train_AUC", "valid_Negative Log Loss", "test_Negative Log Loss", "Iterations"]
+    # drop columns which should not be shown
+    if not show_train_data:
+        cols_to_drop = ["train_Accuracy", "train_AUC", "train_Negative Log Loss"]
+        results = results.drop(columns=cols_to_drop)
+        max_highlight_columns = [col for col in max_highlight_columns if col not in cols_to_drop]
+        min_highlight_columns = [col for col in min_highlight_columns if col not in cols_to_drop]
+    if not show_valid_data:
+        cols_to_drop = ["valid_Accuracy", "valid_AUC", "valid_Negative Log Loss"]
+        results = results.drop(columns=cols_to_drop)
+        max_highlight_columns = [col for col in max_highlight_columns if col not in cols_to_drop]
+        min_highlight_columns = [col for col in min_highlight_columns if col not in cols_to_drop]
+    if not show_test_data:
+        cols_to_drop = ["test_Accuracy", "test_AUC", "test_Negative Log Loss"]
+        results = results.drop(columns=cols_to_drop)
+        max_highlight_columns = [col for col in max_highlight_columns if col not in cols_to_drop]
+        min_highlight_columns = [col for col in min_highlight_columns if col not in cols_to_drop]
+
     # Display results
     st.write("Experiment Results")
-    max_highlight_columns = ["Accuracy", "AUC"]
-    min_highlight_columns = ["Negative Log Loss", "Iterations"]
-    st.dataframe(results.style.highlight_max(axis=0, subset=max_highlight_columns).highlight_min(axis=0, subset=min_highlight_columns))
+
+    # Apply gradient coloring
+    styled_results = results.style.background_gradient(subset=max_highlight_columns, cmap="Greens").background_gradient(
+        subset=min_highlight_columns, cmap="Reds"
+    )
+    # styled_results = results.style.format(precision=2).bar(color="orange")
+    st.dataframe(styled_results)
 
     st.write(
         f"""
