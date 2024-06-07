@@ -138,15 +138,16 @@ if st.sidebar.button("Run Experiment"):
 
     # Apply gradient coloring
     chosen_cmap = "YlGn"
-    styled_results = results.style.background_gradient(subset=max_highlight_columns, cmap=chosen_cmap).background_gradient(
-        subset=min_highlight_columns, cmap=chosen_cmap
-    )
+    styled_results = results.style.background_gradient(subset=max_highlight_columns, cmap=chosen_cmap)
+
+    for col in min_highlight_columns:
+        styled_results = styled_results.background_gradient(subset=[col], cmap=chosen_cmap, gmap=-results[col])
     # styled_results = results.style.format(precision=2).bar(color="orange")
     st.dataframe(styled_results)
 
     st.write(
         f"""
-    These values are highlighted in the table above:
+    These values are highlighted as the `"greenest"` in the table above:
     - Maximum values for *{", ".join(max_highlight_columns)}*
     - Minimum values for *{", ".join(min_highlight_columns)}*
     """
