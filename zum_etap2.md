@@ -9,14 +9,12 @@ Miłosz Łopatto
 ### Interpretacja tematu
 Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python poddające obiekty o interfejsie klsyfikatora zaczerpniętym ze znanej biblioteki scikit-learn uczeniu aktywnemu na małej ilości otagowanych danych.
 
+#### Pętla aktywnego uczenia
+![Pętla aktywnego uczenia](docs/assets/active_learning.png)
+
+
 ## Opis części implementacyjnej
 W ramach implementacji zostały zrealizowane osobno moduły do uczenia aktywnego oraz interfejsu użytkownika. W efekcie użytkownik może korzystać z biblioteki jak z dowolnej innej biblioteki, a dodatkowo będzie mógł alternatywnie wykorzystać interfejs użytkownika do łatwiejszego wykonywania eksperymentów.
-
-### Struktura projektu
-TODO
-
-### Pre-commit, autoformat, linter
-TODO
 
 ### Lista dostępnych algorytmów klasyfikacji
 <!---
@@ -34,7 +32,23 @@ Zaimplementowany pakiet umożliwia wykonywanie eksperymentów z różnymi algory
 - QDA (sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis)
 Wszelkie uzbierane dane numeryczne będące rezultatami działania poszczególnych algorytmów można przeanalizować zbiorowo jako DataFrame wygenerowany przy pomocy **Pandas**.
 
-### Opis zaimplementowanego pakietu
+#### Parametry algorytmów
+Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała. W większości przypadków zdecydowaliśmy się zostawić domyślne wartości hiperparametrów. Modele są inicjowane w następujący sposób:
+```python
+classifiers = {
+    "KNN": KNeighborsClassifier(3),
+    "Linear SVM": SVC(kernel="linear", probability=True),
+    "RBF SVM": SVC(kernel="rbf", probability=True),
+    "Gaussian Process": GaussianProcessClassifier(),
+    "Decision Tree": DecisionTreeClassifier(),
+    "Random Forest": RandomForestClassifier(),
+    "AdaBoost": AdaBoostClassifier(),
+    "Naive Bayes": GaussianNB(),
+    "QDA": QuadraticDiscriminantAnalysis(),
+}
+```
+
+### Funkcjonalność
 Zaimplementowany pakiet umożliwia trenowanie algorytmów zgodnie z ideą aktywnego uczenia. Umożliwia do funkcja `active_learn` w pliku `core.py`. Możemy do niej przekazać następujące parametry:
 
 - dane
@@ -57,68 +71,59 @@ Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będ�
 <!-- ^ TODO: czy to się zgadza? -->
 - stan losowy umożliwiający reprodukcję otrzymanych wyników
 
-def experiment(
-    data: list,
-    stop_criterion,
-    classifiers: dict,
-    uncertainty_fcs: dict,
-    data_splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]),
-    n_samples=[100],
-    random_state=RANDOM_STATE,
-):
-
-#### Opis interfejsu graficznego
-Interfejs użytkownika podczas aktywnego uczenia został zrealizowany jako aplikacja webowa przy pomocy biblioteki **Streamlit**.
+Przykłady użycia:
+TODO
 
 
+### Charakterystyka zbiorów danych
+Domyślnie pakiet umożliwia przeprowadzanie eksperymentów na poniższych zbiorach danych:
 
-## Opis części badawczej
-W ramach części badawczej przeprowadzona została przykładowa analiza porównawcza strategii zapytań dla wybranych algorytmów klasyfikacji na zbiorze danych Titanic.
+- Zbiór [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file)
+Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`.
+- Zbiór [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html)
+W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas.
 
 ### Preprocessing danych
 Dla uproszczenia do klasyfikacji wykorzystane zostały jedynie kolumny numeryczne. Pominęliśmy kroki takie jak przykładowo one-hot encoding dla kolumn kategorycznych. Uznaliśmy, że główny temat i cel projektu tego nie wymaga, a takie podejście pozwoliło nam skrócić czas obliczeń.
 
-### Badanie strategii zapytań
+Dane dzielone są na 4 zbiory: `Train`, `Active`, `Valid` oraz `Test`, gdzie:
+- `Train` jest zbiorem danych do początkowego trenowania modeli
+- `Active` jest zbiorem danych z którego brane są próbki w kolejnych iteracjach aktywnego uczenia
+- `Valid` jest zbiorem walidacyjnym
+- `Test` jest zbiorem testowym
+
+### Opis interfejsu graficznego
+Interfejs użytkownika podczas aktywnego uczenia został zrealizowany jako aplikacja webowa przy pomocy biblioteki **Streamlit**.
+
+![Interfejs graficzny - przykładowy eksperyment](docs/assets/app1.png)
+
+Interfejs graficzny pozwala na wygodne skonfigurowanie poniższych parametrów eksperymentu:
+
+- wybór zbioru danych (na przykładzie wybrany został zbiór `Titanic`)
+- wybór kryterium stopu (na przykładzie: `AUC`)
+- ustalenie progu kryterium stopu na zbiorze walidacyjnym, po którym moduł przestaje wykonywać kolejne iteracje trenowania (na przykładzie: `0.85`)
+- wybór modeli do przetestowania (na przykładzie wybrany został `Naive Bayes` oraz `Linear SVM`)
+- wybór funkcji niepewności do przetestowania (na przykładzie wybrane zostały wszystkie strategie, czyli: `Uncertainty`, `Entropy`, `Confidence margin` oraz `Confidence quotient`)
+- pierwszy suwak umożliwia zdefiniowanie podziału na dwie części - pierwsza część będzie dalej przeznaczona na zbiór treningowy oraz zbiór do aktywanego uczenia, a druga część będzie dalej przeznaczona na zbiór walidacyjny oraz zbiór treningowy (w tym wypadku 80% danych przeznaczamy na `Train+Active`, a 20% danych przeznaczamy na `Valid+Test`)
+- następnie dwa suwaki umożliwiają dostosowanie proporcji zbiorów `Train+Active` oraz `Valid+Test` (w tym wypadku ostatecznie 10% przeznaczamy na zbiór `Train` i 70% na zbiór `Active`, a pozostałe 20% rozdzielamy po równo na zbiory `Valid` oraz `Test`)
+- Ustawienie `Number of Samples per Iteration` pozwala nam zdefiniować liczbę przykładów dobieranych w kolejnych iteracjach aktywnego uczenia (w tym wypadku `10`)
+- ostatnia opcja umożliwia nam wybranie zbiorów danych dla których wyniki mają być widoczne w wynikowej tabeli (w tym wypadku chcemy móc porównać wyniki dla zbiorów `Train` oraz `Valid`, natomiast nie chcemy znać wyników uzyskiwanych przez modele na zbiorze testowym)
+
+Dodatkowo wygenerowane wyniki można w prosty sposób pobrać jako plik w formacie `.csv`:
+![app2.png](docs/assets/app2.png)
+
+TODO: filmik prezentujący interfejs graficzny
 
 
-### Cel poszczególnych badań
-- Badania Integracyjne
-Są to badania zaprojektowane by naśladowały testy integracyjne systemu z symulowanym użytkownikiem. Nie będą się one wiązały z wynikami odrębnymi od informacji systemowych i będą prowadzone wyłącznie na Etapie Implementacji w celu weryfikacji poprawnego działania systemu.
+## Porównanie strategii zapytań
 
-- Badania Wpływu Strategii Zapytań
-Są to badania wpływu różnych strategii wyznacznia punktów do otagowania przez algorytm aktywnego uczenia. Zamierzone jest zbadanie co najmniej 3 strategii: ATS, Uncertainty Sampling oraz Expected Error Reduction.
+### Przykładowy eksperyment - badanie wpływu strategii zapytań
+Jako przykładowy eksperyment przeanalizujemy prezentowany wcześniej przykład.
 
-### Charakterystyka zbiorów danych
-Planowanym jest używanie dwóch rodzajów zbiorów:
+![app1.py](/docs/assets/app1.png)
 
-- Zbiór [Titanic](https://www.kaggle.com/datasets/brendan45774/test-file)
-Będziemy dokonywać na nim klasyfikacji binarnej, dokładniej przewidywania wartości klasy `Survived`. Ze względu na prostą możliwość zbudowania automatycznej "wyroczni" niezbędnej w algortymie uczenia aktywnego, na tym zbiorze przeprowadzane będą eksperymenty numeryczne wpływu strategii próbkowania na budowę modelu.
-- Zbiór [CIFAR10](https://www.cs.toronto.edu/~kriz/cifar.html)
-W ramach biblioteki torchvision, zbiór ten jest reprezentowany poprzez 60000 kolorowych obrazków o wymiarach 32x32 podzielonych na 10 równolicznych klas. Ze względu na jego prostą interpretowalność przez człowieka będzie on wykorzystywany jako zbiór testowy w interaktywnym interfejsie graficznym w Streamlit.
+## Struktura projektu
+TODO
 
-### Badane parametry algorytmów
-Algorytmy klasyfikujące nie są przedmiotem badania, które skupia się na active learningu i jego parametrze strategii. W związku z powyższym, oprócz tego jednego hiperparametru, reszta pozostanie stała. W większości przypadków zdecydowaliśmy się zostawić domyślne wartości hiperparametrów. Modele są inicjowane w następujący sposób:
-```python
-classifiers = {
-    "KNN": KNeighborsClassifier(3),
-    "Linear SVM": SVC(kernel="linear", probability=True),
-    "RBF SVM": SVC(kernel="rbf", probability=True),
-    "Gaussian Process": GaussianProcessClassifier(),
-    "Decision Tree": DecisionTreeClassifier(),
-    "Random Forest": RandomForestClassifier(),
-    "AdaBoost": AdaBoostClassifier(),
-    "Naive Bayes": GaussianNB(),
-    "QDA": QuadraticDiscriminantAnalysis(),
-}
-```
-
-### Miary jakości i procedury oceny modeli
-- Badania Integracyjne
-Ocenie będzie poddawany przyrost informacyjny dot. stanu kodu oraz czas odpowiedzi systemu. Ocena nastąpi poprzez skonfrontowanie rezultatów ze spodziewanymi.
-
-
-- Badanie Wpływu Strategii Zapytań
-Strategie zapytań będą mierzone na każdym jednostkowym przyroście informacyjnym poprzez ocenę każdego z modelów miarami Accuracy, Negative Log Loss oraz ROC Area Under Curve. Wspólnie tendencje tych trzech metryk będą poddawane analizie porównawczej na późniejszych etapach oceny wpływu parametru selekcji.
-
-## Otwarte kwestie wymagające późniejszego rozwiązania (wraz z wyjaśnieniem powodów, dla których ich rozwiązanie jest odłożone na później)
-- Ze względu na brak działających modułów, nie stwierdzono jeszcze zasadności i stacku istnienia testów automatycznych.
+## Pre-commit, autoformat, linter
+TODO
