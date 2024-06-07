@@ -45,7 +45,7 @@ classifiers = {
     "Naive Bayes": GaussianNB(),
     "QDA": QuadraticDiscriminantAnalysis(),
 }
-selected_classifiers = st.sidebar.multiselect("Select Classifiers", list(classifiers.keys()), default=["KNN"])
+selected_classifiers = st.sidebar.multiselect("Select Classifiers", list(classifiers.keys()), default=["Naive Bayes"])
 
 # Uncertainty functions selection
 uncertainty_fcs = {
