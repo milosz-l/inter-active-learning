@@ -25,7 +25,7 @@ default_context:
     command_line_interface_bin_name: "inter-active-learning"
     coveralls: "no"
     distribution_name: "inter-active-learning"
-    email: "milosz.lopatto@gmail.com"
+    email: ""
     formatter_quote_style: "double"
     full_name: "Milosz Lopatto"
     function_name: "compute"

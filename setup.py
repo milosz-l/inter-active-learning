@@ -21,7 +21,7 @@ setup(
         re.sub(":[a-z]+:`~?(.*?)`", r"``\1``", read("CHANGELOG.rst")),
     ),
     author="Milosz Lopatto",
-    author_email="milosz.lopatto@gmail.com",
+    author_email="",
     url="https://github.com/milosz-l/inter-active-learning",
     packages=find_packages("src"),
     package_dir={"": "src"},
