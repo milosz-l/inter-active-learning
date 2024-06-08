@@ -58,7 +58,7 @@ Zaimplementowany pakiet umożliwia trenowanie algorytmów zgodnie z ideą aktywn
 - funkcja niepewności
 - procentowy podział danych na zbiór treningowy, zbiór do aktywnego uczenia, zbiór walidacyjny oraz zbiór testowy
 - liczba próbek dokładanych w jednej iteracji aktywnego uczenia
-<!-- ^ TODO: czy to się zgadza? -->
+<!-- ^ czy to się zgadza? Tak, zgadza się -->
 - stan losowy umożliwiający reprodukcję otrzymanych wyników
 
 Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będącego na wyższym poziomie abstrakcji. Realizuje to funkcja `experiment` znajdująca się także w pliku `core.py`. Przyjmuje ona następujące parametry:
@@ -69,13 +69,57 @@ Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będ�
 - lista funkcji niepewności do przetestowania
 - procentowy podział danych (identycznie jak we wcześniej opisywanej funkcji `active_learn`)
 - lista liczb próbek dokładanych w jednej iteracji aktywnego uczenia
-<!-- ^ TODO: czy to się zgadza? -->
+<!-- ^ czy to się zgadza? Tak, zgadza się -->
 - stan losowy umożliwiający reprodukcję otrzymanych wyników
 
-Przykłady użycia:
-TODO
+#### Przykłady użycia
 
+_active\_learn(data: str, stop\_criterion, classifier, uncertainty\_fc, data\_splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), n\_samples=100, random_state=RANDOM\_STATE):_
+```.py
+train, valid, test, iter = active_learn('titanic', lambda x: x['Accuracy'] > 0.9, GaussianNB(), uncertainty_sampling)
+print(f"Iterations: {iter}")
+print(train)
+print(valid)
+print(test)
+```
 
+```
+Iterations: 10
+{'Accuracy': 0.7770334928229665, 'Negative Log Loss': 0.6655082319831331, 'AUC': 0.8277974683544305}
+{'Accuracy': 0.8076923076923077, 'Negative Log Loss': 0.6339302443156313, 'AUC': 0.8473865877712031}
+{'Accuracy': 0.7518796992481203, 'Negative Log Loss': 0.7280167235970085, 'AUC': 0.7584905660377359}
+```
+
+_experiment(data: list, stop\_criterion, classifiers: dict, uncertainty\_fcs: dict, data\_splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), n\_samples=[100], random\_state=RANDOM\_STATE)_
+```.py
+from sklearn.neighbors import KNeighborsClassifier
+from .sampling import confidence_margin_sampling
+from .sampling import confidence_quotient_sampling
+from .sampling import entropy_sampling
+from .sampling import uncertainty_sampling
+
+df = experiment(
+    data=["titanic"],
+    stop_criterion=lambda x: x["Accuracy"] > 0.9,
+    classifiers={"KNN": KNeighborsClassifier(3)},
+    uncertainty_fcs={
+        "Uncertainty": uncertainty_sampling,
+        "Entropy": entropy_sampling,
+        "Confidence margin": confidence_margin_sampling,
+        "Confidence quotient": confidence_quotient_sampling,
+    },
+)
+df.to_csv("sth.txt")
+```
+
+_sth.txt_
+```.csv
+,data,classifier,strategy,N sampled per iter,Iterations,train_Accuracy,train_Negative Log Loss,train_AUC,valid_Accuracy,valid_Negative Log Loss,valid_AUC,test_Accuracy,test_Negative Log Loss,test_AUC
+0,titanic,KNN,Uncertainty,100,10,0.8535885167464115,0.2955589612276564,0.9368646543330087,0.7846153846153846,2.768178906758788,0.8365384615384616,0.6917293233082706,5.1595323074189485,0.728066037735849
+1,titanic,KNN,Entropy,100,10,0.8535885167464115,0.2955589612276564,0.9368646543330087,0.7846153846153846,2.768178906758788,0.8365384615384616,0.6917293233082706,5.1595323074189485,0.728066037735849
+2,titanic,KNN,Confidence margin,100,10,0.8535885167464115,0.2955589612276564,0.9368646543330087,0.7846153846153846,2.768178906758788,0.8365384615384616,0.6917293233082706,5.1595323074189485,0.728066037735849
+3,titanic,KNN,Confidence quotient,100,10,0.8535885167464115,0.2955589612276564,0.9368646543330087,0.7846153846153846,2.768178906758788,0.8365384615384616,0.6917293233082706,5.1595323074189485,0.728066037735849
+```
 ### Charakterystyka zbiorów danych
 Domyślnie pakiet umożliwia przeprowadzanie eksperymentów na poniższych zbiorach danych:
 
