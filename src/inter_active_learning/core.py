@@ -1,3 +1,30 @@
+"""
+Active Learning Experimentation Module
+
+This module provides functionality for performing active learning experiments on different datasets
+using various classifiers and uncertainty sampling strategies.
+
+Imports:
+    - warnings: Standard library for warning control.
+    - numpy as np: Numerical operations.
+    - pandas as pd: Data manipulation and analysis.
+    - sklearn.metrics: Metrics for evaluating model performance.
+    - sklearn.neighbors: K-Nearest Neighbors classifier.
+    - sklearn.pipeline: Pipeline creation.
+    - sklearn.preprocessing: Data preprocessing.
+    - .data: Custom module for data fetching and preparation.
+    - .sampling: Custom module for uncertainty sampling strategies.
+
+Functions:
+    - compute_metrics: Computes accuracy, log loss, and AUC for the given model.
+    - active_learn: Performs active learning using a specified classifier and uncertainty sampling strategy.
+    - experiment: Runs multiple active learning experiments and collects results.
+
+Constants:
+    - RANDOM_STATE: Seed for random operations.
+    - DATA_DICT: Dictionary mapping dataset names to their respective data fetching functions.
+"""
+
 import warnings
 
 import numpy as np
@@ -24,6 +51,18 @@ DATA_DICT = {"titanic": fetch_and_prepare_titanic_data, "mnist": fetch_and_prepa
 
 
 def compute_metrics(pipe, X_valid, y_valid, data="titanic"):
+    """
+    Computes evaluation metrics for a given model pipeline on the validation set.
+
+    Args:
+        pipe (Pipeline): The trained model pipeline.
+        X_valid (np.array): Validation features.
+        y_valid (np.array): Validation labels.
+        data (str): Dataset name to determine specific metric calculations.
+
+    Returns:
+        dict: Dictionary containing accuracy, log loss, and AUC scores.
+    """
     # Evaluate on validation set
     metric_dict = {}
     y_valid_pred = pipe.predict(X_valid)
@@ -47,8 +86,19 @@ def active_learn(
     random_state=RANDOM_STATE,
 ):
     """
-    params:
-        stop_criterion: function taking argument in form of metric dicts and returning True/False
+    Performs active learning using the specified classifier and uncertainty function.
+
+    Args:
+        data (str): Dataset name to be used.
+        stop_criterion (function): Function that takes metric dicts and returns True/False to stop learning.
+        classifier: Scikit-learn classifier.
+        uncertainty_fc (function): Uncertainty sampling function.
+        data_splits (np.array): Array defining data splits for training, active learning, validation, and testing.
+        n_samples (int): Number of samples to query in each iteration.
+        random_state (int): Seed for random operations.
+
+    Returns:
+        tuple: Training metrics, validation metrics, test metrics, and number of iterations.
     """
     if data in DATA_DICT.keys():
         X, y = DATA_DICT[data]()
@@ -94,6 +144,21 @@ def experiment(
     n_samples=[100],
     random_state=RANDOM_STATE,
 ):
+    """
+    Runs multiple active learning experiments and collects results.
+
+    Args:
+        data (list): List of datasets to be used.
+        stop_criterion (function): Function that takes metric dicts and returns True/False to stop learning.
+        classifiers (dict): Dictionary of classifiers to be used.
+        uncertainty_fcs (dict): Dictionary of uncertainty sampling functions to be used.
+        data_splits (np.array): Array defining data splits for training, active learning, validation, and testing.
+        n_samples (list): List of sample sizes to query in each iteration.
+        random_state (int): Seed for random operations.
+
+    Returns:
+        pd.DataFrame: DataFrame containing the results of the experiments.
+    """
     results = pd.DataFrame(
         columns=[
             "data",
