@@ -194,7 +194,23 @@ Jako przykładowy eksperyment przeanalizujemy prezentowany wcześniej przykład.
 
 
 ## Struktura projektu
-TODO
+Projekt składa się z biblioteki backendowej o źródłach w [./src](./src/inter_active_learning/) oraz [interfejsu graficznego](./active_learning_app.py) do przykładowych interakcji z nią. Pozostałe pliki za wyłączeniem raportów o przedrostku "zum\_" są skonfigurowanym szablonem biblioteki na podstawie projektu [cookiecutter](https://github.com/ionelmc/cookiecutter-pylibrary).
+
+### Biblioteka
+Biblioteka składa się z trzech modułów: [core](./src/inter_active_learning/core.py), [data](./src/inter_active_learning/data.py) oraz [sampling](./src/inter_active_learning/sampling.py).
+
+#### Core
+Moduł core jest modułem głównym, udostępniający abstrakcje do wykonywania eksperymentów oraz prostą funkcję wyliczającą metryki. Abstrakcje obejmują zarówno możliwość przeprowadzenia pojedynczego eksperymentu, zwracającego słowniki dla każdego ze zbiorów (treningowego, validacyjnego oraz testowego) bądź serię eksperymentów w postaci iloczynu kartezjańskiego danej przestrzeni przeszukiwań, zwracającej rezultaty w postaci tablicy pd.DataFrame.
+
+#### Data
+Moduł data jest modułem pomocniczym, który udostępnia funkcje pobierające i oczyszczające przykładowe dane przed przetwarzaniem. Zawiera także funkcję pomocniczą wspierającą podział zbiorów na daną liczbę podzbiorów o danych proporcjach.
+
+#### Sampling
+Moduł sampling jest modułem pomocniczym, który udostępnia funkcje rangujące dostępne do uczenia aktywnego próbki wg. kryteriów oceny i zwraca zadefiniowaną przez użytkownika ilość indexów najbardziej pomocnych w dalszym treningu.
+
+### Interfejs
+Interfejs graficzny oparty o Streamlit uostępnia możliwość wywoływania funkcjonalnści _experiment()_ z Core w przyjazny użytkownikowi sposób. By uruchomić wystarczy zainstalować wszystkie wymagane pakiety i zrealizować `streamlit run active_learning_app.py`.
+
 
 ## Pre-commit, autoformat, linter
 TODO
