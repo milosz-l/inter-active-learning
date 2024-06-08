@@ -75,7 +75,7 @@ Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będ�
 #### Przykłady użycia
 
 _active\_learn(data: str, stop\_criterion, classifier, uncertainty\_fc, data\_splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), n\_samples=100, random_state=RANDOM\_STATE):_
-```.py
+```python
 train, valid, test, iter = active_learn('titanic', lambda x: x['Accuracy'] > 0.9, GaussianNB(), uncertainty_sampling)
 print(f"Iterations: {iter}")
 print(train)
@@ -83,7 +83,7 @@ print(valid)
 print(test)
 ```
 
-```
+```ptyhon
 Iterations: 10
 {'Accuracy': 0.7770334928229665, 'Negative Log Loss': 0.6655082319831331, 'AUC': 0.8277974683544305}
 {'Accuracy': 0.8076923076923077, 'Negative Log Loss': 0.6339302443156313, 'AUC': 0.8473865877712031}
@@ -91,7 +91,7 @@ Iterations: 10
 ```
 
 _experiment(data: list, stop\_criterion, classifiers: dict, uncertainty\_fcs: dict, data\_splits: np.array = np.array([0.1, 0.7, 0.1, 0.1]), n\_samples=[100], random\_state=RANDOM\_STATE)_
-```.py
+```python
 from sklearn.neighbors import KNeighborsClassifier
 from .sampling import confidence_margin_sampling
 from .sampling import confidence_quotient_sampling
@@ -156,7 +156,8 @@ Interfejs graficzny pozwala na wygodne skonfigurowanie poniższych parametrów e
 Dodatkowo wygenerowane wyniki można w prosty sposób pobrać jako plik w formacie `.csv`:
 ![app2.png](docs/assets/app2.png)
 
-TODO: filmik prezentujący interfejs graficzny
+Filmik prezentujący działanie interfejsu graficznego:
+[app_demo_video.mp4](docs/assets/app_demo_video.mp4)
 
 
 ## Porównanie miar niepewności
