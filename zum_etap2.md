@@ -211,6 +211,14 @@ Interfejs graficzny oparty o Streamlit uostępnia możliwość wywoływania funk
 W ramach konfiguracji pre-commit zastosowano konwencję formatu narzucaną przez narzędzie black oraz ruff. Ma to na celu zwiększenie czytelności kodu oraz jego konwencji.
 
 ## Źródła
+- [modAL][1]
+- [ZUM][2]
+- [Pandas][3]
+- [Scikit-learn][4]
+- [Streamlit][5]
+- [Active learning sampling strategies][6]
+- [Active learning overview strategies and uncertainty measures][7]
+
 [1]: https://github.com/modAL-python/modAL
 [2]: http://elektron.elka.pw.edu.pl/~pcichosz/zum/slajdy/zum-s11.pdf
 [3]: https://pandas.pydata.org/
