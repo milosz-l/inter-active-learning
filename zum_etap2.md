@@ -217,3 +217,8 @@ W ramach konfiguracji pre-commit zastosowano konwencję formatu narzucaną przez
 ## Źródła
 [1]: https://github.com/modAL-python/modAL
 [2]: http://elektron.elka.pw.edu.pl/~pcichosz/zum/slajdy/zum-s11.pdf
+[3]: https://pandas.pydata.org/
+[4]: https://scikit-learn.org/stable/
+[5]: https://streamlit.io/
+[6]: https://medium.com/@hardik.dave/active-learning-sampling-strategies-f8d8ac7037c8
+[7]: https://towardsdatascience.com/active-learning-overview-strategies-and-uncertainty-measures-521565e0b0b
