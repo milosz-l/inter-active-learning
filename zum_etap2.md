@@ -211,9 +211,8 @@ Moduł sampling jest modułem pomocniczym, który udostępnia funkcje rangujące
 ### Interfejs
 Interfejs graficzny oparty o Streamlit uostępnia możliwość wywoływania funkcjonalnści _experiment()_ z Core w przyjazny użytkownikowi sposób. By uruchomić wystarczy zainstalować wszystkie wymagane pakiety i zrealizować `streamlit run active_learning_app.py`.
 
-
 ## Pre-commit, autoformat, linter
-TODO
+W ramach konfiguracji pre-commit zastosowano konwencję formatu narzucaną przez narzędzie black oraz ruff. Ma to na celu zwiększenie czytelności kodu oraz jego konwencji.
 
 ## Źródła
 [1]: https://github.com/modAL-python/modAL
