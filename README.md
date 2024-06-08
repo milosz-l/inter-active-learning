@@ -1,7 +1,8 @@
 # Active Learning app with interactive GUI
 ![app1](docs/assets/app1.png)
 
-[app_demo_video](docs/assets/app_demo_video.mp4)
+## Demo video
+[![app_demo_video](docs/assets/app_demo_video_thumbnail.png)](https://youtu.be/VhhASUaIqqk "Watch demo video")
 
 ## Installation
 ```bash

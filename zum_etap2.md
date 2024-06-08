@@ -146,12 +146,14 @@ Interfejs graficzny pozwala na wygodne skonfigurowanie poniższych parametrów e
 - wybór zbioru danych (na przykładzie wybrany został zbiór `Titanic`)
 - wybór kryterium stopu (na przykładzie: `AUC`)
 - ustalenie progu kryterium stopu na zbiorze walidacyjnym, po którym moduł przestaje wykonywać kolejne iteracje trenowania (na przykładzie: `0.85`)
-- wybór modeli do przetestowania (na przykładzie wybrany został `Naive Bayes` oraz `Linear SVM`)
-- wybór funkcji niepewności do przetestowania (na przykładzie wybrane zostały wszystkie strategie, czyli: `Uncertainty`, `Entropy`, `Confidence margin` oraz `Confidence quotient`)
+- wybór modeli do przetestowania (na przykładzie wybrany został `Naive Bayes`, `Linear SVM`, `Random Forest` oraz `KNN`)
+- wybór funkcji niepewności do przetestowania (na przykładzie wybrane strategie `Uncertainty` oraz `Entropy`)
 - pierwszy suwak umożliwia zdefiniowanie podziału na dwie części - pierwsza część będzie dalej przeznaczona na zbiór treningowy oraz zbiór do aktywanego uczenia, a druga część będzie dalej przeznaczona na zbiór walidacyjny oraz zbiór treningowy (w tym wypadku 80% danych przeznaczamy na `Train+Active`, a 20% danych przeznaczamy na `Valid+Test`)
 - następnie dwa suwaki umożliwiają dostosowanie proporcji zbiorów `Train+Active` oraz `Valid+Test` (w tym wypadku ostatecznie 10% przeznaczamy na zbiór `Train` i 70% na zbiór `Active`, a pozostałe 20% rozdzielamy po równo na zbiory `Valid` oraz `Test`)
-- ustawienie `Number of Samples per Iteration` pozwala nam zdefiniować liczbę przykładów dobieranych w kolejnych iteracjach aktywnego uczenia (w tym wypadku `10`)
+- ustawienie `Number of Samples per Iteration` pozwala nam zdefiniować liczbę przykładów dobieranych w kolejnych iteracjach aktywnego uczenia (w tym wypadku `5`)
 - ostatnia opcja umożliwia nam wybranie zbiorów danych dla których wyniki mają być widoczne w wynikowej tabeli (w tym wypadku chcemy móc porównać wyniki dla zbiorów `Train` oraz `Valid`, natomiast nie chcemy znać wyników uzyskiwanych przez modele na zbiorze testowym)
+
+Na powyższym przykładzie widzimy, że w tym przypadku obie strategie zadziałały tak samo dla każdego z modeli - osięgnięcie zadanego AUC na zbiorze walidacyjnym zajęło tyle samo iteracji dla każdej ze strategii. Porównanie miar niepewności znajduje się w dalszej części tego raportu.
 
 Dodatkowo wygenerowane wyniki można w prosty sposób pobrać jako plik w formacie `.csv`:
 ![app2.png](docs/assets/app2.png)
@@ -186,13 +188,6 @@ Margines ufności mierzy różnicę między prawdopodobieństwami dwóch najbard
 Iloraz ufności to stosunek prawdopodobieństwa najbardziej prawdopodobnej klasy do drugiej najbardziej prawdopodobnej klasy. Niższy iloraz wskazuje na większą niepewność. Próbki z najniższym ilorazem są wybierane do dalszego uczenia.
 - **Zastosowanie**: Przydatna, gdy chcemy uwzględnić względną pewność modelu między dwiema najbardziej prawdopodobnymi klasami. Jest bardziej czuła na przypadki, gdzie różnice w prawdopodobieństwach są znaczące, ale niekoniecznie bliskie.
 - **Przykład zastosowania**: W klasyfikacji medycznej, gdzie różnice w prawdopodobieństwach mogą być znaczące, np. diagnozowanie chorób na podstawie wyników badań.
-
-### Przykładowy eksperyment - badanie wpływu strategii zapytań
-Jako przykładowy eksperyment przeanalizujemy prezentowany wcześniej przykład.
-
-![app1.py](/docs/assets/app1.png)
-
-
 
 ## Struktura projektu
 Projekt składa się z biblioteki backendowej o źródłach w [./src](./src/inter_active_learning/) oraz [interfejsu graficznego](./active_learning_app.py) do przykładowych interakcji z nią. Pozostałe pliki za wyłączeniem raportów o przedrostku "zum\_" są skonfigurowanym szablonem biblioteki na podstawie projektu [cookiecutter](https://github.com/ionelmc/cookiecutter-pylibrary).
