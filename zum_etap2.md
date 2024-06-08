@@ -7,7 +7,7 @@ Miłosz Łopatto
 10. Aktywne uczenie się modeli klasyfikacji na podstawie małych zbiorów trenujących przez zgłaszanie zapytania o prawdziwe wartości atrybutu docelowego dla ograniczonej liczby przykładów z dostarczonego dużego zbioru danych nieetykietowanych wybranych według określonych kryteriów (np. przykłady bliskie granicy decyzyjnej dotychczasowego modelu lub takie, dla których jego predykcje są obarczone największą niepewnością) i iteracyjne doskonalenie modelu na podstawie powiększanego w ten sposób zbioru trenującego. Implementacja w formie opakowania umożliwiającego użycie dowolnego algorytmu klasyfikacji dostępnego w środowisku R lub Python stosującego standardowy interfejs wywołania. Badanie wpływu użycia aktywnego uczenia się na jakość modeli klasyfikacji tworzonych na podstawie małych zbiorów trenujących za pomocą wybranych algorytmów dostępnych w środowisku R lub Python.
 
 ### Interpretacja tematu
-Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python poddające obiekty o interfejsie klsyfikatora zaczerpniętym ze znanej biblioteki scikit-learn uczeniu aktywnemu na małej ilości otagowanych danych.
+Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python poddające obiekty o interfejsie klasyfikatora zaczerpniętym ze znanej biblioteki scikit-learn uczeniu aktywnemu na małej ilości otagowanych danych.
 
 #### Pętla aktywnego uczenia
 ![Pętla aktywnego uczenia](docs/assets/active_learning.png)
@@ -22,9 +22,9 @@ W ramach implementacji zostały zrealizowane osobno moduły do uczenia aktywnego
 (https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)
 --->
 Zaimplementowany pakiet umożliwia wykonywanie eksperymentów z różnymi algorytmami klasyfikacji z biblioteki **SciKit Learn**:
-- Nearest Neighbors (sklearn.neighbours.KNeighborsClassifier)
-- Linear SVM (sklearn.SVM.SVC)
-- RBF SVM (sklearn.SVM.SVC)
+- Nearest Neighbors (sklearn.neighbors.KNeighborsClassifier)
+- Linear SVM (sklearn.svm.SVC)
+- RBF SVM (sklearn.svm.SVC)
 - Gaussian Process (sklearn.gaussian_process.GaussianProcessClassifier)
 - Decision Tree (sklearn.tree.DecisionTreeClassifier)
 - Random Forest (sklearn.ensemble.RandomForestClassifier)
@@ -83,7 +83,7 @@ print(valid)
 print(test)
 ```
 
-```ptyhon
+```python
 Iterations: 10
 {'Accuracy': 0.7770334928229665, 'Negative Log Loss': 0.6655082319831331, 'AUC': 0.8277974683544305}
 {'Accuracy': 0.8076923076923077, 'Negative Log Loss': 0.6339302443156313, 'AUC': 0.8473865877712031}
