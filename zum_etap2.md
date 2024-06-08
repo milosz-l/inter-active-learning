@@ -18,9 +18,6 @@ Temat zinterpretowano jako polecenie zbudowania biblioteki w języku Python podd
 W ramach implementacji zostały zrealizowane osobno moduły do uczenia aktywnego oraz interfejsu użytkownika. W efekcie użytkownik może korzystać z biblioteki jak z dowolnej innej biblioteki, a dodatkowo będzie mógł alternatywnie wykorzystać interfejs użytkownika do łatwiejszego wykonywania eksperymentów.
 
 ### Lista dostępnych algorytmów klasyfikacji
-<!---
-(https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html)
---->
 Zaimplementowany pakiet umożliwia wykonywanie eksperymentów z różnymi algorytmami klasyfikacji z biblioteki **SciKit Learn**:
 - Nearest Neighbors (sklearn.neighbors.KNeighborsClassifier)
 - Linear SVM (sklearn.svm.SVC)
@@ -58,7 +55,6 @@ Zaimplementowany pakiet umożliwia trenowanie algorytmów zgodnie z ideą aktywn
 - funkcja niepewności
 - procentowy podział danych na zbiór treningowy, zbiór do aktywnego uczenia, zbiór walidacyjny oraz zbiór testowy
 - liczba próbek dokładanych w jednej iteracji aktywnego uczenia
-<!-- ^ czy to się zgadza? Tak, zgadza się -->
 - stan losowy umożliwiający reprodukcję otrzymanych wyników
 
 Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będącego na wyższym poziomie abstrakcji. Realizuje to funkcja `experiment` znajdująca się także w pliku `core.py`. Przyjmuje ona następujące parametry:
@@ -69,7 +65,6 @@ Ponadto pakiet umożliwia uruchomienie całego eksperymentu porównawczego będ�
 - lista funkcji niepewności do przetestowania
 - procentowy podział danych (identycznie jak we wcześniej opisywanej funkcji `active_learn`)
 - lista liczb próbek dokładanych w jednej iteracji aktywnego uczenia
-<!-- ^ czy to się zgadza? Tak, zgadza się -->
 - stan losowy umożliwiający reprodukcję otrzymanych wyników
 
 #### Przykłady użycia
